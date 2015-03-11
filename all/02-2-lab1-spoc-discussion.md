@@ -68,6 +68,7 @@ lab1中printfmt函数用到了可变参，请参考写一个小的linux应用程
 
 > 
 代码：
+```
 #include <stdarg.h>
 #include <stdio.h>
 void multi(int n, ...) {
@@ -88,7 +89,7 @@ int main() {
   tot(4, 2, 2, 2, 2);
   return 0;
 }
-
+```
 
 
 
