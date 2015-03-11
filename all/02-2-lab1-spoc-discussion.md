@@ -79,7 +79,6 @@ void multi(int n, ...) {
   	tot = tot * va_arg(al, int);
 }
   va_end(al);
-
   printf("multiply result : %d\n", tot);
   return ;
 }
