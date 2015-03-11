@@ -67,6 +67,7 @@ lab1中printfmt函数用到了可变参，请参考写一个小的linux应用程
 - [x]  
 
 > 
+代码：
 #include <stdarg.h>
 #include <stdio.h>
 void multi(int n, ...) {
@@ -96,7 +97,6 @@ int main() {
 
 > 
 首先是一个可以输出字符的 bootloader, 主要完成对CGA、串口、并口的访问和设置。注意CGA、串口的初始化，并口无需初始化，不同外设的访问方式不同，不同类型字符的显示方式及控制格式的方法也要小心
-
 随后完成可以加载ELF格式文件的bootloader，主要根据ELF文件的格式来读取，读取完毕后跳转到ucore的第一条指令上执行。注意加载ELF文件的时候对其格式是否合法要进行检测，要有相关的错误处理，bootloader的总大小不能超地512字节否则无法放入一个扇区中  
 
 
