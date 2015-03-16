@@ -43,6 +43,8 @@ NOTICE
 
 请参考ucore lab2代码，采用`struct pmm_manager` 根据你的`学号 mod 4`的结果值，选择四种（0:最优匹配，1:最差匹配，2:最先匹配，3:buddy systemm）分配算法中的一种或多种，在应用程序层面(可以 用python,ruby,C++，C，LISP等高语言)来实现，给出你的设思路，并给出测试用例。 (spoc)
 
+与矣小沅组队，除以4余数均为0，代码详见矣小沅的github。
+
 ```
 如何表示空闲块？ 如何表示空闲块列表？ 
 [(start0, size0),(start1,size1)...]
