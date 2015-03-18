@@ -61,93 +61,90 @@ PDE格式（8 bit） :
 ```
   VALID | PT6 ... PT0
 ```
-其
+
 ```
-VALID==1表示，表示映射存在；VALID==0表示，表示映射不存在。
+其VALID==1表示，表示映射存在；VALID==0表示，表示映射不存在。
 PFN6..0:页帧号
 #PT6..0:页表的物理基址>>5#
-```
-在[物理内存模拟数据文件](./03-2-spoc-testdata.md)中，给出了4KB物理内存空间的值，请回答下列虚地址是否有合法对应的物理内存，请给出对应的pde index, pde contents, pte index, pte contents。
 
-虚地址15位 实地址12位 页表号为5位 页表目录表项号为5位
-15位的虚地址各个位表示如下：
-0~4 offset
-5~9 PTE
-10~14 PDE
-
-PDBR值为544（十进制） 即第17页
-物理页号pfn为7位
-
-手算比较麻烦，写了段程序来做，代码见MMU.cpp
+结果如下，代码在结果后面：
 
 ```
-Virtual Address 6c74
-11011 00011 10100
-pde index: 0x1b  pde  contentes:(valid 1 , pt  0x20)
-pte index: 0x03  pte  contentes:(valid 1 , pfn  0x61)
-pa: 3124 value:6
-
-Virtual Address 6b22
-11010 11001 00010
-pde index: 0x1a  pde  contentes:(valid 1 , pt  0x52)
-pte index: 0x19  pte  contentes:(valid 1 , pfn  0x47)
-pa: 2274 value:26
-
-
-Virtual Address 03df
-00000 11110 11111
-pde index: 0x00  pde  contentes:(valid 1 , pt  0x5a)
-pte index: 0x1e  pte  contentes:(valid 1 , pfn  0x05)
-pa: 191 value:15
-
-      
-Virtual Address 69dc
-11010 01110 11100
-pde index: 0x1a  pde  contentes:(valid 1 , pt  0x52)
-pte index: 0x0e  pte  contentes:(valid 0 , pfn  0x7f)
-Fault (page table entry not valid)
-
-
-Virtual Address 317a
-01100 01011 11010
-pde index: 0x0c  pde  contentes:(valid 1 , pt  0x18)
-pte index: 0x0b  pte  contentes:(valid 1 , pfn  0x35)
-pa: 1722 value:30
-
-
-Virtual Address 4546
-10001 01010 00110
-pde index: 0x11  pde  contentes:(valid 1 , pt  0x21)
-pte index: 0x0a  pte  contentes:(valid 0 , pfn  0x7f)
-Fault (page table entry not valid)
-
-      
-Virtual Address 2c03
-01011 00000 00011
-pde index: 0x0b  pde  contentes:(valid 1 , pt  0x44)
-pte index: 0x00  pte  contentes:(valid 1 , pfn  0x57)
-pa: 2787 value:22
-
-Virtual Address 7fd7
-11111 11110 10111
-pde index: 0x1f  pde  contentes:(valid 1 , pt  0x12)
-pte index: 0x1e  pte  contentes:(valid 0 , pfn  0x7f)
-Fault (page table entry not valid)
-
-
-Virtual Address 390e
-01110 01000 01110
-pde index: 0x0e  pde  contentes:(valid 0 , pt  0x7f)
-Fault (page directory entry not valid)
-
-Virtual Address 748b
-11101 00100 01011
-pde index: 0x1d  pde  contentes:(valid 1 , pt  0x00)
-pte index: 0x04  pte  contentes:(valid 0 , pfn  0x7f)
-Fault (page table entry not valid)
+Virtual Address 6c74:
+  -->pde index:0x1b pde contents:(valid 1, pfn 0x20)
+    -->pte index:0x3 pde contents:(valid 1, pfn 0x61)
+      -->Translates to Physical Address 0xc34 --> Value: 0x6
+Virtual Address 6b22:
+  -->pde index:0x1a pde contents:(valid 1, pfn 0x52)
+    -->pte index:0x19 pde contents:(valid 1, pfn 0x47)
+      -->Translates to Physical Address 0x8e2 --> Value: 0x1a
+Virtual Address 3df:
+  -->pde index:0x0 pde contents:(valid 1, pfn 0x5a)
+    -->pte index:0x1e pde contents:(valid 1, pfn 0x5)
+      -->Translates to Physical Address 0xbf --> Value: 0xf
+Virtual Address 69dc:
+  -->pde index:0x1a pde contents:(valid 1, pfn 0x52)
+    -->pte index:0xe pde contents:(valid 0, pfn 0x7f)
+      --> Fault (page table entry not valid)
+Virtual Address 317a:
+  -->pde index:0xc pde contents:(valid 1, pfn 0x18)
+    -->pte index:0xb pde contents:(valid 1, pfn 0x35)
+      -->Translates to Physical Address 0x6ba --> Value: 0x1e
+Virtual Address 4546:
+  -->pde index:0x11 pde contents:(valid 1, pfn 0x21)
+    -->pte index:0xa pde contents:(valid 0, pfn 0x7f)
+      --> Fault (page table entry not valid)
+Virtual Address 2c03:
+  -->pde index:0xb pde contents:(valid 1, pfn 0x44)
+    -->pte index:0x0 pde contents:(valid 1, pfn 0x57)
+      -->Translates to Physical Address 0xae3 --> Value: 0x16
+Virtual Address 7fd7:
+  -->pde index:0x1f pde contents:(valid 1, pfn 0x12)
+    -->pte index:0x1e pde contents:(valid 0, pfn 0x7f)
+      --> Fault (page table entry not valid)
+Virtual Address 390e:
+  -->pde index:0xe pde contents:(valid 0, pfn 0x7f)
+      --> Fault (page directory entry not valid)
+Virtual Address 748b:
+  -->pde index:0x1d pde contents:(valid 1, pfn 0x0)
+    -->pte index:0x4 pde contents:(valid 0, pfn 0x7f)
+      --> Fault (page table entry not valid)
 
 ```
+代码：
+```
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<iomanip>
+using namespace std;
+int base = 544;
+int q[10]={0x6c74, 0x6b22,0x03df, 0x69dc, 0x317a, 0x4546, 0x2c03, 0x7fd7, 0x390e, 0x748b};
+int main(){
+    ifstream fin;
+    fin.open("a.txt");
+    int a[4096];
+    int i=0;
+    while (fin >> hex >> a[i]){
+	i++;	
+    }
+    for (int i=0; i<10; i++){
+	cout << "Virtual Address " << hex << q[i] << ":" << endl;
+	cout << "  -->pde index:0x" << (q[i]>>10) << " pde contents:(valid " << (a[base+(q[i]>>10)]>>7) << ", pfn 0x" << (0x7f & a[base+(q[i]>>10)]) << ")" << endl;
+	if (a[base+(q[i]>>10)]>>7) {
+	    cout << "    -->pte index:0x" << (0x1f & (q[i]>>5)) << " pde contents:(valid " << (a[0+((0x7f & a[base+(q[i]>>10)])<<5)+(0x1f & (q[i]>>5))]>>7) << ", pfn 0x" << (0x7f &a[0+((0x7f & a[base+(q[i]>>10)])<<5)+(0x1f & (q[i]>>5))]) << ")" << endl;
+	    if  (a[0+((0x7f & a[base+(q[i]>>10)])<<5)+(0x1f & (q[i]>>5))]>>7){
+		cout << "      -->Translates to Physical Address 0x" << ((0x7f &a[0+((0x7f & a[base+(q[i]>>10)])<<5)+(0x1f & (q[i]>>5))])<<5) + (0x1f & q[i]) << " --> Value: 0x" << a[(((0x7f &a[0+((0x7f & a[base+(q[i]>>10)])<<5)+(0x1f & (q[i]>>5))])<<5) + (0x1f & q[i]))] << endl;
+	    } else
+		cout << "      --> Fault (page table entry not valid)" << endl;
+	} else 
+	    cout << "      --> Fault (page directory entry not valid)"<<endl;
+    }
+    fin.close();
+    return 0;
+}
 
+```
 
 
 （3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序（可基于python, ruby, C, C++，LISP等）可模拟实现(2)题中描述的抽象OS，可正确完成二级页表转换。
