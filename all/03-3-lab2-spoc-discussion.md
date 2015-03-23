@@ -148,19 +148,8 @@ VLAID：1表示有效，0表示无效
 请写出一个translation程序（可基于python, ruby, C, C++，LISP等），输入是一个虚拟地址和一个物理地址，能够自动计算出对应的页目录项的index值,页目录项内容的值，页表项的index值，页表项内容的值。即(pde_idx, pde_ctx, pte_idx, pte_cxt)
 
 请用如下值来验证你写的程序的正确性：
-一页4K，offset为12位，每个页表4k，每个页表有1024项，共需要页表65536/1024=64个，所以页目录表有64项，即页目录表index需要6位，页表index需要10位
+
 ```
-va 0xc2265b1f, pa 0x0d8f1b1f
-
-0x2265b1f 
-
-1000   1001100101   101100011111
-pde_index = 0x8
-pde_ctx = 0x9
-pteindex = 0x265
-pte_cxt 的地址为37477 
-在实体课上讨论后，有些争议，然后就按照理解做。代码见本目录下的va.cpp 是实体课上两人一组写的
-
 va 0xcc386bbc, pa 0x0414cbbc
 va 0xc7ed4d57, pa 0x07311d57
 va 0xca6cecc0, pa 0x0c9e9cc0
@@ -192,6 +181,7 @@ va 0xc7204e52, pa 0xb8b6e52, pde_idx 0x31c, pde_ctx 0x1d, pte_idx 0x204, pte_ctx
 va 0xc3a90293, pa 0xf1fd293, pde_idx 0x30e, pde_ctx 0xf, pte_idx 0x290, pte_ctx 0xf1fd
 va 0xce6c3f32, pa 0x7d4f32, pde_idx 0x339, pde_ctx 0x3a, pte_idx 0x2c3, pte_ctx 0x7d4
 代码：
+```
 #include<iostream>
 #include<iomanip>
 using namespace std;
@@ -208,7 +198,7 @@ int main(){
 }
 return 0;
 }
-
+```
 ---
 
 ## 开放思考题
