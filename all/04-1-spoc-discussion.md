@@ -41,6 +41,7 @@ sys	0m0.005s
 
 
 对上述程序做简单修改(ij下标互换)：
+```
 #include <stdio.h>
 #define NUM 1024
 #define COUNT 10
@@ -53,7 +54,7 @@ void main (void) {
       A[j][i] = i+j;
   printf("%d count computing over!\n",i*j*k);
 }
-
+```
 编译运行，
 real	0m0.480s
 user	0m0.299s
