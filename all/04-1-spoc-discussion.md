@@ -38,9 +38,9 @@ real	0m0.046s
 user	0m0.046s
 sys	0m0.000s
 
-可以看到其执行时间为0.046s
 
-对上述程序做简单修改如下，得到局部性不好的一段程序：
+
+对上述程序做简单修改(ij下标互换)：
 #include <stdio.h>
 #define NUM 1024
 #define COUNT 10
